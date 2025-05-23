@@ -1,12 +1,9 @@
 #ifndef CLINICMANAGER_H
 #define CLINICMANAGER_H
 
-#include "date.h"
+
 #include "Patient.h"
 #include "Doctor.h"
-#include "AppointmentRequest.h"
-#include "AppointmentTime.h"
-#include "Patient.h"
 
 #include <string>
 #include <array>
@@ -14,7 +11,6 @@
 
 using namespace std;
 
-class Patient;
 
 class ClinicManager{
 private:

@@ -6,7 +6,7 @@
 #include "Patient.h"
 
 #include "AppointmentRequest.h"
-#include "ClinicManager.h"
+
 #include "AppointmentTime.h"
 
 #include <string>

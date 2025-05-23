@@ -55,6 +55,12 @@ build CMakeFiles/COEN244_A2.dir/driver.cpp.o: CXX_COMPILER__COEN244_A2_unscanned
   OBJECT_DIR = CMakeFiles/COEN244_A2.dir
   OBJECT_FILE_DIR = CMakeFiles/COEN244_A2.dir
 
+build CMakeFiles/COEN244_A2.dir/Patient.cpp.o: CXX_COMPILER__COEN244_A2_unscanned_Debug /Users/vietdung/Documents/COEN244-A2/Patient.cpp || cmake_object_order_depends_target_COEN244_A2
+  DEP_FILE = CMakeFiles/COEN244_A2.dir/Patient.cpp.o.d
+  FLAGS = -g -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fcolor-diagnostics
+  OBJECT_DIR = CMakeFiles/COEN244_A2.dir
+  OBJECT_FILE_DIR = CMakeFiles/COEN244_A2.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target COEN244_A2
@@ -63,7 +69,7 @@ build CMakeFiles/COEN244_A2.dir/driver.cpp.o: CXX_COMPILER__COEN244_A2_unscanned
 #############################################
 # Link the executable COEN244_A2
 
-build COEN244_A2: CXX_EXECUTABLE_LINKER__COEN244_A2_Debug CMakeFiles/COEN244_A2.dir/driver.cpp.o
+build COEN244_A2: CXX_EXECUTABLE_LINKER__COEN244_A2_Debug CMakeFiles/COEN244_A2.dir/driver.cpp.o CMakeFiles/COEN244_A2.dir/Patient.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk
   OBJECT_DIR = CMakeFiles/COEN244_A2.dir
   POST_BUILD = :
