@@ -7,6 +7,14 @@
 #include "AppointmentTime.h"
 using namespace std;
 
-Date::
+Date::Date(){
+day = -1;
+month = -1;
+year = -1;
+}
+
+Date::Date(int day, int month, int year){
+
+}
 
 

@@ -1,18 +1,17 @@
 #ifndef APPOINTMENTREQUEST_H
 #define APPOINTMENTREQUEST_H
 
-#include "date.h"
-#include "Patient.h"
-#include "Doctor.h"
-
-#include "ClinicManager.h"
-#include "AppointmentTime.h"
 
 #include <string>
 #include <array>
 using namespace std;
 
-class AppointmentRequest{
+class AppointmentRequest {
+public:
+    AppointmentRequest();
+
+    AppointmentRequest(string p_name, string d_name, string ap_date);
+
 private:
     string patient_name;
     string doctor_name;
