@@ -6,7 +6,7 @@ AppointmentTime::AppointmentTime(){
   hour = -1;
   minute = -1;
 }
-AppointmentTime::~AppointmentTime(string d, int h, int m){
+AppointmentTime::AppointmentTime(string d, int h, int m){
   day = d;
   hour = h;
   minute = m;

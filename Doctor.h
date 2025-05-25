@@ -26,4 +26,4 @@ private:
     array<array<Patient *, 5>, 12> patients_with_appointment;
 };
 
-#endif DOCTOR_H
+#endif

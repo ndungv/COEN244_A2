@@ -18,4 +18,4 @@ private:
     string appointment_date;
 };
 
-#endif APPOINTMENTREQUEST_H
+#endif

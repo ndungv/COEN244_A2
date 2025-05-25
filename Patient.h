@@ -11,6 +11,9 @@ public:
 
     Patient(string p_name, string insurance, string d_name);
 
+    void insert_patient(string patient_name, string insurance, string doctor_name);
+    void print_patient_info();
+
 private:
     string patient_name;
     Date patient_birth;
@@ -19,4 +22,4 @@ private:
     AppointmentTime doctor_appointment_time;
 };
 
-#endif PATIENT_H
+#endif
