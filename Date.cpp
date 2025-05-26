@@ -7,16 +7,6 @@
 #include "AppointmentTime.h"
 using namespace std;
 
-//❗I don't think day, month, and year should be negative, instead it should start from 1 ???
-// => Yea it just a null data placeholder like " " of string
-/*
-Date::Date(){
-day = -1;
-month = -1;
-year = -1;
-}
-*/
-
 //Initialization
 //Day, month, and year should not be negative
 Date::Date() : day(1), month(1), year(1) {
