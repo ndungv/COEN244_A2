@@ -7,7 +7,7 @@
 #include "AppointmentTime.h"
 using namespace std;
 
-//❗I don't think this day should be negative, instead it should start from 1 ???
+//❗I don't think day, month, and year should be negative, instead it should start from 1 ???
 /*
 Date::Date(){
 day = -1;
@@ -15,6 +15,12 @@ month = -1;
 year = -1;
 }
 */
+
+//Initialization
+//Day, month, and year should not be negative
+Date::Date() : day(1), month(1), year(1) {
+  
+}
 
 //Initialization and parameterized constructor
 Date::Date(int day, int month, int year): day(day), month(month), year(year) {
