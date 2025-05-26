@@ -22,9 +22,11 @@ Date::Date() : day(1), month(1), year(1) {
   
 }
 
-//Initialization and parameterized constructor
-Date::Date(int day, int month, int year): day(day), month(month), year(year) {
-
+//Parameterized constructor
+Date::Date(int day, int month, int year) {
+day = day; 
+month = month;
+year = year;
 }
 
 //Destruction
