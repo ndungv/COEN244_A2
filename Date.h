@@ -8,7 +8,12 @@ class Date {
 public:
     Date();
 
-    Date(int day, int month, int year);
+    Date(int day, int month, int year); 
+//destruction
+~Date();
+//Getter and setter 
+
+
 
 private:
     int year;
