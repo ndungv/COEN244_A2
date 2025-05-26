@@ -36,24 +36,35 @@ Date::~Date(){
 }
 //Getter and Setter's return
 int Date::getDay() {
-  return day; 
+  return d; 
 }
-void Date::setDay(int day) { 
-  this->day = day;
+void Date::setDay(int d) {
+    if (d < 1 && d > 31) { 
+        cout << "Wrong day " << endl;        
+    } else {
+        this->d = d;
+    }
 }
 int Date::getMonth() {
-  return month; 
+  return m; 
 }
-void Date::setMonth(int month) {       
-  this->month = month;
+void Date::setMonth(int m) {
+    if (m < 1 && m > 12) {  
+        cout << "Wrong month" << endl;
+    } else {
+        this->m = m;
+    }
 }
 int Date::getYear() {
   return year; 
 }
-void Date::setYear(int year) {
-  this->year = year; 
+void Date::setYear(int y) {
+    if (y < 2024) {  
+        cout << "Wrong year " << endl;
+    } else {
+        this->y = y;
+    }
 }
-
 
 
 
