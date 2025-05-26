@@ -17,4 +17,9 @@ Date::Date(int day, int month, int year){
 
 }
 
+//Destruction
+Date::~Date(){
+  
+}
+
 
