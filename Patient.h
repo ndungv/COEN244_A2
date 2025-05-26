@@ -12,7 +12,7 @@ public:
     Patient(string p_name, string insurance, string d_name);
 
     void insert_patient(string patient_name, string insurance, string doctor_name);
-    void print_patient_info();
+    void print_patient_info() const;
 
 private:
     string patient_name;
