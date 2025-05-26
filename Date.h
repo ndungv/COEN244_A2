@@ -7,12 +7,17 @@ using namespace std;
 class Date {
 public:
     Date();
-
-    Date(int day, int month, int year); 
+//set from first day
+    Date(int day=1, int month=1, int year=1); 
 //destruction
 ~Date();
 //Getter and setter 
-
+int getDay() const;
+void setDay(int day);
+int getMonth() const;
+void setMonth(int month);
+int getYear() const;
+void setYear(int year);
 
 
 private:
