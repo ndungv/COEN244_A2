@@ -39,13 +39,48 @@ void ClinicManager::insert_patient() {
     cin >> ap_date>>ap_hour>>ap_minute;
     AppointmentTime ap_patient(ap_date, ap_hour, ap_minute);
 
-    patient[num_patients] = Patient(patient_name, patient_birth, insurance, doctor_name,ap_patient );
-    num_patients++;
+    if (num_patients >= 1) {
+        bool duplicate = false;
+        for (int i = 0; i < num_patients; i++) {
+            bool name_match = (patient_name == patient[i].getPatientName());
+            bool dob_match = (dob_date == patient[i].get_patient_birth().getDay() &&
+                              dob_month == patient[i].get_patient_birth().getMonth() &&
+                              dob_year == patient[i].get_patient_birth().getYear());
+            bool insurance_match = (insurance == patient[i].getPatientInsurance());
+            bool doctor_match = (doctor_name == patient[i].getPatientDoctorName());
+            bool appointment_match = (ap_date == patient[i].getPatientAppointmentTime().getDay() &&
+                                      ap_hour == patient[i].getPatientAppointmentTime().getHour() &&
+                                      ap_minute == patient[i].getPatientAppointmentTime().getMinute());
+
+            if (name_match && dob_match && insurance_match && doctor_match && appointment_match) {
+                cout <<"Patient exists! Please re-enter patient info"<<endl;
+                ClinicManager::insert_patient();
+                duplicate = true;
+                break;
+            }
+        }
+        if (!duplicate) {
+            cout <<"Patient added!"<<endl;
+            patient[num_patients] = Patient(patient_name, patient_birth, insurance, doctor_name,ap_patient);
+            num_patients++;
+            cout <<"Current number of patients: "<<num_patients<<endl;
+        }
+    }
+
+    else {
+        cout <<"Patient added!"<<endl;
+        patient[num_patients] = Patient(patient_name, patient_birth, insurance, doctor_name,ap_patient);
+        num_patients++;
+        cout <<"Current number of patients: "<<num_patients<<endl;
+    }
 }
+
 
 
 void ClinicManager::print_all_patients() {
     for (int i = 0; i < num_patients; i++) {
+        cout<< "---------Patient "<<i+1<<"----------"<<endl;
         patient[i].print_patient_info();
+        cout <<"-------------------------"<<endl;
     }
 }

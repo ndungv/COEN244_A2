@@ -17,7 +17,22 @@ Patient::Patient(string p_name,const Date& dob, string insurance, string d_name,
     patient_appointment_time (ap_patient)
 {}
 
-const Date Patient::get_patient_birth() const {
+//Getter function
+
+string Patient::getPatientName() {
+    return patient_name;
+}
+string Patient::getPatientInsurance() {
+    return patient_insurance;
+}
+string Patient::getPatientDoctorName() {
+    return doctor_name;
+}
+AppointmentTime Patient::getPatientAppointmentTime() {
+    return patient_appointment_time;
+}
+
+Date Patient::get_patient_birth() const {
     return patient_birth;
 }
 

@@ -22,27 +22,27 @@ year = y;
 
 //Destruction
 Date::~Date(){
-  cout << "Date: destroyed" << endl;  
+
 }
 //Getter and Setter's return
 int Date::getDay() {
-  return d; 
+  return day;
 }
 void Date::setDay(int d) {
     if (d < 1 && d > 31) { 
         cout << "Wrong day " << endl;        
     } else {
-        this->d = d;
+        this->day = d;
     }
 }
 int Date::getMonth() {
-  return m; 
+  return month;
 }
 void Date::setMonth(int m) {
     if (m < 1 && m > 12) {  
         cout << "Wrong month" << endl;
     } else {
-        this->m = m;
+        this->month = m;
     }
 }
 int Date::getYear() {
@@ -52,7 +52,7 @@ void Date::setYear(int y) {
     if (y < 2024) {  
         cout << "Wrong year " << endl;
     } else {
-        this->y = y;
+        this->year = y;
     }
 }
 

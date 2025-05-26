@@ -14,7 +14,7 @@ Doctor::Doctor(string d_name){
   }
 // Copy construction_day and time
 Doctor::Doctor(const Doctor &another_doctor){
-  doctor_name = another_doctor.doctor_name
+  doctor_name = another_doctor.doctor_name;
     for (int i = 0; i < 12; i++) {
       for (int j = 0; j < 5; j++) {
           patients_with_appointment[i][j] = another_doctor.patients_with_appointment[i][j];
@@ -55,7 +55,7 @@ void Doctor::doctor_schedule() const {
     const string days[5] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
     
     cout << doctor_name << " 's Schedule: \n" << "Time" << endl;
-    for (day : days) {
+    for (string day : days) {
         cout << day;
     }	
     cout << endl;
@@ -71,7 +71,7 @@ for (int time = 0; time < 12; ++time) {
         
         for (int day = 0; day < 5; day++) {
           //if else case
-            cout << (patients_with_appointment[time][day] ? patients_with_appointment[time][day]->get_name() : " Available ");
+            cout << (patients_with_appointment[time][day] ? patients_with_appointment[time][day]->getPatientName() : " Available ");
         }
         cout << endl;
     }

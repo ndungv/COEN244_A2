@@ -25,7 +25,7 @@ AppointmentTime::AppointmentTime(string d, int h, int m){
 }
 //Destruction 
 AppointmentTime::~AppointmentTime() {
-    cout << "AppointmentTime: destroyed" << endl;
+
 }
 //Getter and Setters 
 string AppointmentTime::getDay() {
