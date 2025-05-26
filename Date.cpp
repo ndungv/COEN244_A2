@@ -19,7 +19,7 @@ Date::Date(int day, int month, int year){
 
 //Destruction
 Date::~Date(){
-  
+  cout << "Date: destroyed" << endl;  
 }
 
 
