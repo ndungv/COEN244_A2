@@ -70,10 +70,14 @@ for (int time = 0; time < 12; ++time) {
         cout << hour << ":" <<minute << endl;
         
         for (int day = 0; day < 5; day++) {
+          //if else case
             cout << (patients_with_appointment[time][day] ? patients_with_appointment[time][day]->get_name() : " Available ");
         }
         cout << endl;
     }
+}
+string Doctor::get_name() const {
+    return doctor_name;
 }
 
 
