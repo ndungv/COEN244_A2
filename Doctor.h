@@ -1,7 +1,6 @@
 #ifndef DOCTOR_H
 #define DOCTOR_H
 
-#include "date.h"
 #include "AppointmentRequest.h"
 
 #include "AppointmentTime.h"

@@ -28,19 +28,19 @@ AppointmentTime::~AppointmentTime() {
     cout << "AppointmentTime: destroyed" << endl;
 }
 //Getter and Setters 
-string AppointmentTime::getDay() const {
+string AppointmentTime::getDay() {
  return day; 
 }
 void AppointmentTime::setDay(string d) {
  day = d; 
 }
-int AppointmentTime::getHour() const {
+int AppointmentTime::getHour() {
  return hour; 
 }
 void AppointmentTime::setHour(int h) {
  hour = h; 
 }
-int AppointmentTime::getMinute() const {
+int AppointmentTime::getMinute() {
  return minute; 
 }
 void AppointmentTime::setMinute(int m) {

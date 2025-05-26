@@ -21,11 +21,11 @@ public:
 
 private:
     //An array of pointers to the Patient objects of size 1000.
-    Patient *patient;
+    Patient* patient;
     int num_patients;
     const int max_patients = 1000;
     //An array of pointers to the Doctor objects of size 10.
-    Doctor *doctor;
+    Doctor* doctor;
     int num_doctors;
     const int max_doctors = 10;
 

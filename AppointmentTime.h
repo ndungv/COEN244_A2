@@ -7,16 +7,17 @@ using namespace std;
 class AppointmentTime{
 public:
     AppointmentTime();
-    AppointmentTime(string d, int h, int m);
+    AppointmentTime(string day, int hour, int minute);
 //Destruction
     ~AppointmentTime();
 
-//Getter and setter
-    string getDay() const;
+    //Getter
+    string getDay();
+    int getHour();
+    int getMinute();
+    //Setter
     void setDay(string d);
-    int getHour() const;
     void setHour(int h);
-    int getMinute() const;
     void setMinute(int m);
 
 private:

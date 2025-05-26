@@ -4,34 +4,48 @@
 #include "Patient.h"
 using namespace std;
 
-ClinicManager::ClinicManager(){
+ClinicManager::ClinicManager() {
     patient = new Patient[num_patients];
     doctor = new Doctor[num_doctors];
-  }
-ClinicManager::~ClinicManager(){
-  delete[] patient;
-  delete[] doctor;
 }
 
-void ClinicManager::insert_patient(){
-   string patient_name;
-   string insurance;
-   string doctor_name;
+ClinicManager::~ClinicManager() {
+    delete[] patient;
+    delete[] doctor;
+}
 
-   cout << "Enter the name of the patient: ";
-   cin >> patient_name;
-   cout << "Enter the insurance of the patient: ";
-   cin >> insurance;
-   cout << "Enter the doctor name of the patient: ";
-   cin >> doctor_name;
+void ClinicManager::insert_patient() {
+    string patient_name;
+    int dob_date;
+    int dob_month;
+    int dob_year;
+    string insurance;
+    string doctor_name;
+    string ap_date;
+    int ap_hour;
+    int ap_minute;
 
-   patient[num_patients] = Patient(patient_name, insurance, doctor_name);
-   num_patients++;
+
+    cout << "Enter the name of the patient: ";
+    cin >> patient_name;
+    cout <<"Enter Patient date of birth (date month year - separated by space) "<<endl;
+    cin >> dob_date>>dob_month>>dob_year;
+    Date patient_birth(dob_date,dob_month,dob_year);
+    cout << "Enter the insurance of the patient: ";
+    cin >> insurance;
+    cout << "Enter the doctor name of the patient: ";
+    cin >> doctor_name;
+    cout << "Enter the patient appointment time: "<<endl;
+    cin >> ap_date>>ap_hour>>ap_minute;
+    AppointmentTime ap_patient(ap_date, ap_hour, ap_minute);
+
+    patient[num_patients] = Patient(patient_name, patient_birth, insurance, doctor_name,ap_patient );
+    num_patients++;
 }
 
 
-void ClinicManager::print_all_patients(){
-  for (int i = 0; i < num_patients; i++){
-  patient[i].print_patient_info();
-  }
+void ClinicManager::print_all_patients() {
+    for (int i = 0; i < num_patients; i++) {
+        patient[i].print_patient_info();
+    }
 }

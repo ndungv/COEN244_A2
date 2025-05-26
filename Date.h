@@ -7,17 +7,25 @@ using namespace std;
 class Date {
 public:
     Date();
-    Date(int day, month, year);
 
-//destruction
+    Date(int day, int month, int year);
+
+    //destruction
     ~Date();
 
-//Getter and setter 
-    int getDay() const;
+    //Getter function
+    //Getter function
+    int getDay();
+
+    int getMonth();
+
+    int getYear();
+
+    //Setter function
     void setDay(int day);
-    int getMonth() const;
+
     void setMonth(int month);
-    int getYear() const;
+
     void setYear(int year);
 
 private:
