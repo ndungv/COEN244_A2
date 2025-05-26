@@ -21,6 +21,15 @@ public:
 
     ~Doctor();
 
+//check if book/cancel successfully or not
+    bool book_appointment(Patient* patient, int day_index, int time_index);
+    void cancel_appointment(int day_index, int time_index);
+//doctor schedule
+    void doctor_schedule() const;
+//getter
+    string get_name() const;
+
+
 private:
     string doctor_name;
     array<array<Patient *, 5>, 12> patients_with_appointment;
