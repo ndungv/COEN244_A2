@@ -8,9 +8,16 @@ using namespace std;
 
 class AppointmentRequest {
 public:
-    AppointmentRequest();
-
+    AppointmentRequest(); 
     AppointmentRequest(string p_name, string d_name, string ap_date);
+
+// Getter and setters
+  string getPatientName() const;
+  void setPatientName(string p_name);
+  string getDoctorName() const;
+  void setDoctorName(string d_name);
+  string getAppointmentDate() const;
+  void setAppointmentDate(string ap_date);
 
 private:
     string patient_name;
