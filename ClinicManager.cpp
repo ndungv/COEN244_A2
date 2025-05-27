@@ -82,6 +82,7 @@ void ClinicManager::print_all_patients() {
         cout <<"-------------------------"<<endl;
     }
 }
+/*
 //Patient Insertion
 bool ClinicManager::insertPatient(Patient* patient) {
     if (patientCount >= 1000) {
@@ -92,7 +93,7 @@ bool ClinicManager::insertPatient(Patient* patient) {
             return false;
         }
     }
-    
+    */
     patients[patientCount++] = patient;
     return true;
 }
