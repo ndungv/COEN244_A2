@@ -1,81 +1,175 @@
+/**
+ * Doctor.cpp
+ * Implementation of the Doctor class
+ * Handles doctor's schedule and appointment management
+ */
+
 #include <iostream>
 #include "Doctor.h"
+#include <iomanip>
 
 using namespace std;
 
-Doctor::Doctor(){
-doctor_name = "";
-  }
-Doctor::~Doctor() {
-cout << "Doctor: " << doctor_name << "destroyed. " << endl; 
-}
-Doctor::Doctor(string d_name){
-    doctor_name = d_name;
-  }
-// Copy construction_day and time
-Doctor::Doctor(const Doctor &another_doctor){
-  doctor_name = another_doctor.doctor_name;
+/**
+ * Default constructor
+ * Initializes a doctor with empty name and all appointment slots set to nullptr
+ */
+Doctor::Doctor() {
+    doctor_name = "";
+    // Initialize all appointment slots to nullptr
     for (int i = 0; i < 12; i++) {
-      for (int j = 0; j < 5; j++) {
-          patients_with_appointment[i][j] = another_doctor.patients_with_appointment[i][j];
-      }
+        for (int j = 0; j < 5; j++) {
+            patients_with_appointment[i][j] = nullptr;
+        }
+    }
+}
+
+/**
+ * Destructor
+ * Properly cleans up all dynamically allocated Patient objects in appointments
+ */
+Doctor::~Doctor() {
+    // Delete all dynamically allocated Patient objects
+    for (int i = 0; i < 12; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (patients_with_appointment[i][j] != nullptr) {
+                delete patients_with_appointment[i][j];
+                patients_with_appointment[i][j] = nullptr;
+            }
+        }
+    }
+    cout << "Doctor: " << doctor_name << " destroyed." << endl; 
+}
+
+/**
+ * Constructor with name parameter
+ * @param d_name The doctor's name
+ */
+Doctor::Doctor(string d_name) {
+    doctor_name = d_name;
+    // Initialize all appointment slots to nullptr
+    for (int i = 0; i < 12; i++) {
+        for (int j = 0; j < 5; j++) {
+            patients_with_appointment[i][j] = nullptr;
+        }
+    }
+}
+
+/**
+ * Copy constructor
+ * Performs deep copy of all appointments
+ * @param another_doctor The doctor object to copy from
+ */
+Doctor::Doctor(const Doctor &another_doctor) {
+    doctor_name = another_doctor.doctor_name;
+    // Initialize all slots to nullptr first
+    for (int i = 0; i < 12; i++) {
+        for (int j = 0; j < 5; j++) {
+            patients_with_appointment[i][j] = nullptr;
+        }
+    }
+    // Now copy only the non-null pointers
+    for (int i = 0; i < 12; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (another_doctor.patients_with_appointment[i][j] != nullptr) {
+                // Create a new Patient object with the same data
+                Patient* original = another_doctor.patients_with_appointment[i][j];
+                patients_with_appointment[i][j] = new Patient(
+                    original->getPatientName(),
+                    original->get_patient_birth(),
+                    original->getPatientInsurance(),
+                    original->getPatientDoctorName(),
+                    original->getPatientAppointmentTime()
+                );
+            }
+        }
     }
 } 
-//book appointment 
+
+/**
+ * Books an appointment for a patient
+ * @param patient Pointer to the patient to book
+ * @param day_index Day of the week (0-4 for Monday-Friday)
+ * @param time_index Time slot index (0-11 for available slots)
+ * @return bool Success status of booking
+ */
 bool Doctor::book_appointment(Patient* patient, int day_index, int time_index) {
-//day should not be negative, business day: 5 days max. So do the time, max 12 hours
+    // Validate indices
     if (day_index < 0 || day_index >= 5 || time_index < 0 || time_index >= 12) {
-        cout << "Wrong time" << endl;
+        cout << "Invalid appointment time slot." << endl;
         return false;
     }
-//check available or not
-  if (patients_with_appointment[time_index][day_index] != nullptr) {
-        cout << "No place available!" << endl;
+    // Check if slot is available
+    if (patients_with_appointment[time_index][day_index] != nullptr) {
+        cout << "The selected time slot is not available." << endl;
         return false;
     } 
-  patients_with_appointment[time_index][day_index] = patient;
-  cout << "u now booked. " << endl;
+    patients_with_appointment[time_index][day_index] = patient;
+    cout << "Appointment successfully booked." << endl;
     return true;
 }
-//cancel appointment
+
+/**
+ * Cancels an appointment
+ * @param day_index Day of the week (0-4 for Monday-Friday)
+ * @param time_index Time slot index (0-11 for available slots)
+ */
 void Doctor::cancel_appointment(int day_index, int time_index) {
     if (day_index >= 0 && day_index < 5 && time_index >= 0 && time_index < 12) {
         if (patients_with_appointment[time_index][day_index] != nullptr) {
             patients_with_appointment[time_index][day_index] = nullptr;
             cout << "Now cancelled " << endl;
         } else {
-            cout << "This time is still available " << endl;
+            cout << "This time slot is already available." << endl;
         }
     } else {
-        cout << "Wrong time-choosing " << endl;
+        cout << "Invalid time slot selected." << endl;
     }
 }
-//doctor schedule for business day
+
+/**
+ * Displays the doctor's weekly schedule
+ * Shows all appointments and available time slots
+ */
 void Doctor::doctor_schedule() const {
     const string days[5] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
     
-    cout << doctor_name << " 's Schedule: \n" << "Time" << endl;
-    for (string day : days) {
-        cout << day;
-    }	
-    cout << endl;
+    cout << doctor_name << "'s Schedule:" << endl;
     
-for (int time = 0; time < 12; ++time) {
-//if else case of hour and minute 9:00-12:00 (morning) and 14:00-17:00 (afternoon)
-//morning or afternoon
-        int hour = (time < 6) ? 9 + time/2 : 14 + (time-6)/2;
-//30min check 
-        int minute = (time % 2) ? 30 : 0;
+    // Print header with fixed width columns
+    cout << "\nTime     ";  // 8 spaces for time
+    for (const string& day : days) {
+        cout << left << setw(12) << day;  // 12 spaces for each day
+    }
+    cout << endl;
+    cout << string(68, '-') << endl;  // 68 = 8 + (12 * 5)
+    
+    for (int time = 0; time < 12; ++time) {
+        // Calculate hour and minute
+        int base_hour = (time < 6) ? 9 : 14;
+        int hour = base_hour + (time % 6) / 2;
+        int minute = (time % 2) * 30;
 
-        cout << hour << ":" <<minute << endl;
+        // Print time with proper formatting
+        printf("%02d:%02d   ", hour, minute);  // 8 spaces total
         
+        // Print appointments/availability for each day
         for (int day = 0; day < 5; day++) {
-          //if else case
-            cout << (patients_with_appointment[time][day] ? patients_with_appointment[time][day]->getPatientName() : " Available ");
+            if (patients_with_appointment[time][day] != nullptr) {
+                cout << left << setw(12) << patients_with_appointment[time][day]->getPatientName();
+            } else {
+                cout << left << setw(12) << "Available";
+            }
         }
         cout << endl;
     }
+    cout << string(68, '-') << endl;
 }
+
+/**
+ * Gets the doctor's name
+ * @return string The doctor's name
+ */
 string Doctor::get_name() const {
     return doctor_name;
 }

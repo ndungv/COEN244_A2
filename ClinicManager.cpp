@@ -1,172 +1,363 @@
+/**
+ * ClinicManager.cpp
+ * Implementation of the ClinicManager class
+ */
+
 #include <iostream>
+#include <limits>
 #include "ClinicManager.h"
 #include "Doctor.h"
 #include "Patient.h"
 using namespace std;
 
+/**
+ * Constructor: Initializes the clinic management system
+ * Creates dynamic arrays for patients and doctors
+ */
 ClinicManager::ClinicManager() {
-    patient = new Patient[num_patients];
-    doctor = new Doctor[num_doctors];
+    patients = new Patient*[max_patients];
+    doctors = new Doctor*[max_doctors];
+    patient_count = 0;
+    doctor_count = 0;
+    total_patients_week = 0;
 }
 
+/**
+ * Destructor: Cleans up all dynamically allocated memory
+ * Deletes all patient and doctor objects and their arrays
+ */
 ClinicManager::~ClinicManager() {
-    delete[] patient;
-    delete[] doctor;
+    for(int i = 0; i < patient_count; i++) {
+        delete patients[i];
+    }
+    for(int i = 0; i < doctor_count; i++) {
+        delete doctors[i];
+    }
+    delete[] patients;
+    delete[] doctors;
 }
 
+/**
+ * Registers a new patient in the system
+ * Collects patient information through user input and validates data
+ * Checks for duplicate patients before registration
+ */
 void ClinicManager::insert_patient() {
+    if (patient_count >= max_patients) {
+        cout << "Maximum number of patients reached!" << endl;
+        return;
+    }
+
     string patient_name;
-    int dob_date;
-    int dob_month;
-    int dob_year;
+    int dob_date, dob_month, dob_year;
     string insurance;
     string doctor_name;
     string ap_date;
-    int ap_hour;
-    int ap_minute;
+    int ap_hour, ap_minute;
+    string temp;
 
+    // Get patient information with proper validation
+    cout << "\n=== Patient Registration Form ===" << endl;
+    cout << "--------------------------------" << endl;
 
-    cout << "Enter the name of the patient: ";
-    cin >> patient_name;
-    cout <<"Enter Patient date of birth (date month year - separated by space) "<<endl;
-    cin >> dob_date>>dob_month>>dob_year;
-    Date patient_birth(dob_date,dob_month,dob_year);
-    cout << "Enter the insurance of the patient: ";
-    cin >> insurance;
-    cout << "Enter the doctor name of the patient: ";
-    cin >> doctor_name;
-    cout << "Enter the patient appointment time: "<<endl;
-    cin >> ap_date>>ap_hour>>ap_minute;
+    cout << "Enter the patient's full name: ";
+    getline(cin, patient_name);
+
+    // Get and validate date of birth
+    cout << "\n--- Date of Birth ---" << endl;
+    cout << "Enter as: DD MM YYYY (Example: 7 3 2005): ";
+    while (!(cin >> dob_date >> dob_month >> dob_year)) {
+        cout << "Invalid input. Please enter numbers in format: DD MM YYYY" << endl;
+        cin.clear();
+        getline(cin, temp);
+        cout << "Enter as: DD MM YYYY (Example: 7 3 2005): ";
+    }
+    getline(cin, temp); // Clear buffer
+    Date patient_birth(dob_date, dob_month, dob_year);
+
+    // Check for duplicate patients
+    for (int i = 0; i < patient_count; i++) {
+        if (patients[i]->getPatientName() == patient_name &&
+            patients[i]->get_patient_birth().getDay() == dob_date &&
+            patients[i]->get_patient_birth().getMonth() == dob_month &&
+            patients[i]->get_patient_birth().getYear() == dob_year) {
+            cout << "\nPatient already exists!" << endl;
+            return;
+        }
+    }
+
+    // Get insurance information
+    cout << "\n--- Insurance Information ---" << endl;
+    cout << "Enter insurance number: ";
+    getline(cin, insurance);
+
+    // Get doctor assignment
+    cout << "\n--- Doctor Assignment ---" << endl;
+    cout << "Enter doctor's last name (without Dr. prefix): ";
+    getline(cin, doctor_name);
+
+    // Get appointment scheduling
+    cout << "\n--- Appointment Scheduling ---" << endl;
+    cout << "Enter as: Day Hour Minute" << endl;
+    cout << "Example: Monday 14 30 (for Monday at 2:30 PM): ";
+    cin >> ap_date >> ap_hour >> ap_minute;
+    getline(cin, temp); // Clear buffer
     AppointmentTime ap_patient(ap_date, ap_hour, ap_minute);
 
-    if (num_patients >= 1) {
-        bool duplicate = false;
-        for (int i = 0; i < num_patients; i++) {
-            bool name_match = (patient_name == patient[i].getPatientName());
-            bool dob_match = (dob_date == patient[i].get_patient_birth().getDay() &&
-                              dob_month == patient[i].get_patient_birth().getMonth() &&
-                              dob_year == patient[i].get_patient_birth().getYear());
-            bool insurance_match = (insurance == patient[i].getPatientInsurance());
-            bool doctor_match = (doctor_name == patient[i].getPatientDoctorName());
-            bool appointment_match = (ap_date == patient[i].getPatientAppointmentTime().getDay() &&
-                                      ap_hour == patient[i].getPatientAppointmentTime().getHour() &&
-                                      ap_minute == patient[i].getPatientAppointmentTime().getMinute());
-
-            if (name_match && dob_match && insurance_match && doctor_match && appointment_match) {
-                cout <<"Patient exists! Please re-enter patient info"<<endl;
-                ClinicManager::insert_patient();
-                duplicate = true;
-                break;
-            }
-        }
-        if (!duplicate) {
-            cout <<"Patient added!"<<endl;
-            patient[num_patients] = Patient(patient_name, patient_birth, insurance, doctor_name,ap_patient);
-            num_patients++;
-            cout <<"Current number of patients: "<<num_patients<<endl;
-        }
-    }
-
-    else {
-        cout <<"Patient added!"<<endl;
-        patient[num_patients] = Patient(patient_name, patient_birth, insurance, doctor_name,ap_patient);
-        num_patients++;
-        cout <<"Current number of patients: "<<num_patients<<endl;
-    }
+    // Create and store new patient
+    patients[patient_count] = new Patient(patient_name, patient_birth, insurance, doctor_name, ap_patient);
+    patient_count++;
+    
+    // Print confirmation
+    cout << "\n=== Registration Successful ===" << endl;
+    cout << "--------------------------------" << endl;
+    cout << "Name        : " << patient_name << endl;
+    cout << "Date of Birth: " << dob_date << "/" << dob_month << "/" << dob_year << endl;
+    cout << "Insurance   : " << insurance << endl;
+    cout << "Doctor      : " << doctor_name << endl;
+    cout << "Appointment : " << ap_date << " at " 
+         << ap_hour << ":" << (ap_minute < 10 ? "0" : "") << ap_minute << endl;
+    cout << "--------------------------------" << endl;
+    cout << "Total patients in system: " << patient_count << endl;
+    cout << "--------------------------------\n" << endl;
 }
 
+/**
+ * Displays information for all registered patients
+ */
 void ClinicManager::print_all_patients() {
-    for (int i = 0; i < num_patients; i++) {
-        cout<< "---------Patient "<<i+1<<"----------"<<endl;
-        patient[i].print_patient_info();
-        cout <<"-------------------------"<<endl;
+    if (patient_count == 0) {
+        cout << "No patients registered." << endl;
+        return;
+    }
+
+    for (int i = 0; i < patient_count; i++) {
+        cout << "---------Patient " << i+1 << "----------" << endl;
+        patients[i]->print_patient_info();
+        cout << "-------------------------" << endl;
     }
 }
-//Patient Insertion
-bool ClinicManager::insertPatient(Patient* patient) {
-    if (patientCount >= 1000) {
-        return false;
+
+/**
+ * Registers a new doctor in the system
+ * Validates input and checks for duplicates
+ */
+void ClinicManager::insert_doctor() {
+    if (doctor_count >= max_doctors) {
+        cout << "Maximum number of doctors reached!" << endl;
+        return;
     }
-    for (int i = 0; i < patientCount; i++) {
-        if (patients[i]->getName() == patient->getName() && patients[i]->getDateOfBirth() == patient->getDateOfBirth()) {
+
+    string name;
+    string temp;
+    
+    cout << "Enter doctor's last name (without Dr. prefix): ";
+    getline(cin, name);
+
+    // Check for duplicates
+    for (int i = 0; i < doctor_count; i++) {
+        if (doctors[i]->get_name() == name) {
+            cout << "Doctor already exists!" << endl;
+            return;
+        }
+    }
+
+    doctors[doctor_count] = new Doctor(name);
+    doctor_count++;
+    cout << "Doctor " << name << " added successfully!" << endl;
+    cout << "Current number of doctors: " << doctor_count << endl;
+}
+
+/**
+ * Displays schedules for all registered doctors
+ */
+void ClinicManager::print_all_doctors() {
+    if (doctor_count == 0) {
+        cout << "No doctors registered." << endl;
+        return;
+    }
+
+    for (int i = 0; i < doctor_count; i++) {
+        cout << "---------Doctor " << i+1 << "----------" << endl;
+        doctors[i]->doctor_schedule();
+        cout << "-------------------------" << endl;
+    }
+}
+
+/**
+ * Inserts a pre-created doctor object into the system
+ * Used primarily for testing and bulk imports
+ * @param doctor Pointer to the doctor object to insert
+ * @return bool Success status of the insertion
+ */
+bool ClinicManager::insert_doctor(Doctor* doctor) {
+    if (doctor_count >= max_doctors) return false;
+    
+    for (int i = 0; i < doctor_count; i++) {
+        if (doctors[i]->get_name() == doctor->get_name()) {
             return false;
         }
     }
     
-    patients[patientCount++] = patient;
+    doctors[doctor_count++] = doctor;
     return true;
 }
 
-//Doctor Insertion
-bool ClinicManager::insertDoctor(Doctor* doctor) {
-    if (doctorCount >= 10) return false;
-        for (int i = 0; i < doctorCount; i++) {
-        if (doctors[i]->getName() == doctor->getName()) {
-            return false;
-        }
-    }
-    doctors[doctorCount++] = doctor;
-    return true;
-}
-//Process appointment 
-AppointmentTime ClinicManager::processAppointment(const AppointmentRequest& request) {
-    Doctor* doctor = findDoctor(request.getDoctorName());
-    Patient* patient = findPatient(request.getPatientName());
+/**
+ * Processes a new appointment request
+ * Validates the request and attempts to schedule the appointment
+ * @param request The appointment request to process
+ * @return AppointmentTime The scheduled time or empty if failed
+ */
+AppointmentTime ClinicManager::process_appointment(const AppointmentRequest& request) {
+    string doctor_name = request.getDoctorName();
+    Doctor* doctor = find_doctor(doctor_name);
+    Patient* patient = find_patient(request.getPatientName());
     
     if (!doctor || !patient) {
+        cout << "Doctor or patient not found!" << endl;
+        cout << "Doctor name used for search: " << doctor_name << endl;
+        cout << "Patient name used for search: " << request.getPatientName() << endl;
         return AppointmentTime(); 
     }
-    // Find available time
-    for (int hour = 9; hour <= 17; hour++) {
-        if (hour == 12 || hour == 13) {
-            continue; 
-        }
-        for (int minute = 0; minute < 60; minute += 30) {
-            if (doctor->isTimeSlotAvailable(request.getDay(), hour, minute)) {
-                AppointmentTime apt(request.getDay(), hour, minute);          
-//refresh patient                
-                patient->setDoctorName(doctor->getName());
-                patient->setAppointmentTime(apt);
-                
-//refresh doctor                
-                doctor->bookAppointment(patient, request.getDay(), hour, minute);              
-                return apt;
-            }
-        }
+
+    // Convert appointment date to day index
+    string appointment_date = request.getAppointmentDate();
+    int day_index = -1;
+    
+    // Map day names to indices
+    if (appointment_date == "Monday") day_index = 0;
+    else if (appointment_date == "Tuesday") day_index = 1;
+    else if (appointment_date == "Wednesday") day_index = 2;
+    else if (appointment_date == "Thursday") day_index = 3;
+    else if (appointment_date == "Friday") day_index = 4;
+    
+    if (day_index == -1) {
+        cout << "Invalid day! Please use Monday through Friday." << endl;
+        return AppointmentTime();
     }
-//Full    
-    return AppointmentTime(); 
+    
+    // Calculate time slot index
+    int hour = 14;  // Default to 2 PM
+    int minute = 30;
+    
+    int time_index;
+    if (hour >= 9 && hour < 12) {
+        time_index = (hour - 9) * 2;
+    } else if (hour >= 14 && hour < 17) {
+        time_index = ((hour - 14) + 3) * 2;
+    } else {
+        cout << "Invalid hour! Hours must be between 9-12 or 14-17." << endl;
+        return AppointmentTime();
+    }
+    if (minute == 30) time_index++;
+    
+    // Attempt to book the appointment
+    if (doctor->book_appointment(patient, day_index, time_index)) {
+        cout << "Appointment booked successfully!" << endl;
+        return AppointmentTime(appointment_date, hour, minute);
+    } else {
+        cout << "Time slot is not available." << endl;
+        return AppointmentTime();
+    }
 }
-//Appointment cancellation
-bool ClinicManager::cancelAppointment(const string& doctorName, const string& patientName, const AppointmentTime& time) {
-    Doctor* doctor = findDoctor(doctorName);
-    Patient* patient = findPatient(patientName);
+
+/**
+ * Cancels an existing appointment
+ * @param doctor_name The doctor's name
+ * @param patient_name The patient's name
+ * @param time The appointment time to cancel
+ * @return bool Success status of the cancellation
+ */
+bool ClinicManager::cancel_appointment(const string& doctor_name, const string& patient_name, const AppointmentTime& time) {
+    Doctor* doctor = find_doctor(doctor_name);
+    Patient* patient = find_patient(patient_name);
     
     if (!doctor || !patient) {
+        cout << "Doctor or patient not found!" << endl;
         return false;
     }
-    // Remove the reservation from doctor 
-    if (!doctor->cancelAppointment(time.getDay(), time.getHour(), time.getMinute())) {
+
+    // Convert day name to index
+    string day = time.getDay();
+    int day_index = -1;
+    if (day == "Monday") day_index = 0;
+    else if (day == "Tuesday") day_index = 1;
+    else if (day == "Wednesday") day_index = 2;
+    else if (day == "Thursday") day_index = 3;
+    else if (day == "Friday") day_index = 4;
+    
+    if (day_index == -1) {
+        cout << "Invalid day! Please use Monday through Friday." << endl;
         return false;
     }
+
+    // Calculate time slot index
+    int hour = time.getHour();
+    int minute = time.getMinute();
+    int time_index = (hour - 9) * 2 + (minute == 30 ? 1 : 0);
+
+    if (time_index < 0 || time_index >= 12) {
+        cout << "Invalid time! Hours must be between 9 and 17." << endl;
+        return false;
+    }
+
+    doctor->cancel_appointment(day_index, time_index);
+    
+    // Update patient's appointment info
     patient->setDoctorName("");
     patient->setAppointmentTime(AppointmentTime());
+    
+    cout << "Appointment cancelled successfully!" << endl;
     return true;
 }
-//Print doctor patient
-void ClinicManager::printDoctorPatients(const std::string& doctorName) const {
+
+/**
+ * Displays all patients assigned to a specific doctor
+ * @param doctor_name The name of the doctor
+ */
+void ClinicManager::print_doctor_patients(const string& doctor_name) const {
     bool found = false;
     
-    for (int i = 0; i < patientCount; i++) {
-        if (patients[i]->getDoctorName() == doctorName) {
-            cout << "Patient: " << patients[i]->getName() << ", Insurance: " << patients[i]->getMedicalInsuranceNumber() << endl;
+    for (int i = 0; i < patient_count; i++) {
+        if (patients[i]->getPatientDoctorName() == doctor_name) {
+            cout << "Patient: " << patients[i]->getPatientName() 
+                 << ", Insurance: " << patients[i]->getPatientInsurance() << endl;
             found = true;
         }
     }
     
     if (!found) {
-        cout << "No patients found for Dr. " << doctorName << endl;
+        cout << "No patients found for doctor " << doctor_name << endl;
     }
+}
+
+/**
+ * Helper function to find a patient by name
+ * @param name The patient's name to search for
+ * @return Patient* Pointer to the found patient or nullptr
+ */
+Patient* ClinicManager::find_patient(const string& name) const {
+    for (int i = 0; i < patient_count; i++) {
+        if (patients[i]->getPatientName() == name) {
+            return patients[i];
+        }
+    }
+    return nullptr;
+}
+
+/**
+ * Helper function to find a doctor by name
+ * @param name The doctor's name to search for
+ * @return Doctor* Pointer to the found doctor or nullptr
+ */
+Doctor* ClinicManager::find_doctor(const string& name) const {
+    for (int i = 0; i < doctor_count; i++) {
+        if (doctors[i]->get_name() == name) {
+            return doctors[i];
+        }
+    }
+    return nullptr;
 }
 
 

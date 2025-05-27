@@ -1,29 +1,41 @@
+/**
+ * AppointmentTime.h
+ * Represents appointment time information
+ * Stores and manages the day and time of appointments
+ */
+
 #ifndef APPOINTMENTTIME_H
 #define APPOINTMENTTIME_H
 #include <string>
 
 using namespace std;
 
-class AppointmentTime{
+/**
+ * AppointmentTime class
+ * Handles the scheduling details of appointments
+ * Stores day of week and time information
+ */
+class AppointmentTime {
 public:
-    AppointmentTime();
-    AppointmentTime(string day, int hour, int minute);
-//Destruction
-    ~AppointmentTime();
+    // Constructors and Destructor
+    AppointmentTime();                                     // Default constructor
+    AppointmentTime(string day, int hour, int minute);    // Full constructor
+    ~AppointmentTime();                                   // Destructor
 
-    //Getter
-    string getDay();
-    int getHour();
-    int getMinute();
-    //Setter
-    void setDay(string d);
-    void setHour(int h);
-    void setMinute(int m);
+    // Getter methods
+    string getDay() const;    // Get day of the week
+    int getHour() const;      // Get hour (24-hour format)
+    int getMinute() const;    // Get minute
+
+    // Setter methods
+    void setDay(string d);    // Set day of the week
+    void setHour(int h);      // Set hour
+    void setMinute(int m);    // Set minute
 
 private:
-    string day;
-    int hour;
-    int minute;
+    string day;              // Day of the week (Monday-Friday)
+    int hour;               // Hour in 24-hour format
+    int minute;            // Minute (0 or 30 for half-hour slots)
 };
 
 #endif

@@ -1,60 +1,88 @@
+/**
+ * Date.cpp
+ * Implementation of the Date class
+ * Handles date validation and storage
+ */
+
 #include <iostream>
-#include "Date.h" //I saw you changed this to date.h, it should be Date.h. Rename your file
-#include "Patient.h"
-#include "Doctor.h"
-#include "AppointmentRequest.h"
-#include "ClinicManager.h"
-#include "AppointmentTime.h"
+#include "Date.h"
 using namespace std;
 
-//Initialization
-//Day, month, and year should not be negative
-Date::Date() : day(1), month(1), year(1) {
-  
+/**
+ * Default constructor
+ * Initializes date to January 1, 2000
+ */
+Date::Date() {
+    day = 1;
+    month = 1;
+    year = 2000;
 }
 
-//Parameterized constructor
+/**
+ * Full constructor with validation
+ * @param d Day of the month (1-31)
+ * @param m Month (1-12)
+ * @param y Year
+ */
 Date::Date(int d, int m, int y) {
-day = d;
-month = m;
-year = y;
+    // Validate input
+    if (y >= 1900 && m >= 1 && m <= 12 && d >= 1 && d <= 31) {
+        day = d;
+        month = m;
+        year = y;
+    } else {
+        cout << "Invalid date. Setting to default (1/1/2000)" << endl;
+        day = 1;
+        month = 1;
+        year = 2000;
+    }
 }
 
-//Destruction
-Date::~Date(){
-
+/**
+ * Destructor
+ */
+Date::~Date() {
 }
-//Getter and Setter's return
+
+// Getter methods
 int Date::getDay() {
-  return day;
+    return day;
 }
-void Date::setDay(int d) {
-    if (d < 1 && d > 31) { 
-        cout << "Wrong day " << endl;        
-    } else {
-        this->day = d;
-    }
-}
+
 int Date::getMonth() {
-  return month;
+    return month;
 }
-void Date::setMonth(int m) {
-    if (m < 1 && m > 12) {  
-        cout << "Wrong month" << endl;
-    } else {
-        this->month = m;
-    }
-}
+
 int Date::getYear() {
-  return year; 
+    return year;
 }
-void Date::setYear(int y) {
-    if (y < 2024) {  
-        cout << "Wrong year " << endl;
+
+// Setter methods with validation
+void Date::setDay(int d) {
+    if (d >= 1 && d <= 31) {
+        day = d;
     } else {
-        this->year = y;
+        cout << "Invalid day value" << endl;
     }
 }
+
+void Date::setMonth(int m) {
+    if (m >= 1 && m <= 12) {
+        month = m;
+    } else {
+        cout << "Invalid month value" << endl;
+    }
+}
+
+void Date::setYear(int y) {
+    if (y >= 1900) {
+        year = y;
+    } else {
+        cout << "Invalid year value" << endl;
+    }
+}
+
+
 
 
 

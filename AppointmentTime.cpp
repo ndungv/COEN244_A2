@@ -1,3 +1,9 @@
+/**
+ * AppointmentTime.cpp
+ * Implementation of the AppointmentTime class
+ * Handles time-related functionality for appointments
+ */
+
 #include <iostream>
 #include "AppointmentTime.h"
 using namespace std;
@@ -11,38 +17,57 @@ AppointmentTime::AppointmentTime(){
 }
 */
 
-//Default
-AppointmentTime::AppointmentTime(){
+/**
+ * Default constructor
+ * Initializes an empty appointment time
+ */
+AppointmentTime::AppointmentTime() {
     day = "";
     hour = 0;
     minute = 0;
 }
 
-AppointmentTime::AppointmentTime(string d, int h, int m){
-  day = d;
-  hour = h;
-  minute = m;
+/**
+ * Full constructor
+ * @param d Day of the week (Monday-Friday)
+ * @param h Hour in 24-hour format
+ * @param m Minute (typically 0 or 30)
+ */
+AppointmentTime::AppointmentTime(string d, int h, int m) {
+    day = d;
+    hour = h;
+    minute = m;
 }
-//Destruction 
-AppointmentTime::~AppointmentTime() {
 
+/**
+ * Destructor
+ * No dynamic memory to clean up
+ */
+AppointmentTime::~AppointmentTime() {
 }
-//Getter and Setters 
-string AppointmentTime::getDay() {
- return day; 
+
+// Getter methods
+string AppointmentTime::getDay() const {
+    return day;
 }
+
+int AppointmentTime::getHour() const {
+    return hour;
+}
+
+int AppointmentTime::getMinute() const {
+    return minute;
+}
+
+// Setter methods
 void AppointmentTime::setDay(string d) {
- day = d; 
+    day = d;
 }
-int AppointmentTime::getHour() {
- return hour; 
-}
+
 void AppointmentTime::setHour(int h) {
- hour = h; 
+    hour = h;
 }
-int AppointmentTime::getMinute() {
- return minute; 
-}
+
 void AppointmentTime::setMinute(int m) {
- minute = m; 
+    minute = m;
 }
