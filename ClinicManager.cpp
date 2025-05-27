@@ -84,8 +84,9 @@ void ClinicManager::print_all_patients() {
 }
 //Patient Insertion
 bool ClinicManager::insertPatient(Patient* patient) {
-    if (patientCount >= 1000) return false;
- 
+    if (patientCount >= 1000) {
+        return false;
+    }
     for (int i = 0; i < patientCount; i++) {
         if (patients[i]->getName() == patient->getName() && patients[i]->getDateOfBirth() == patient->getDateOfBirth()) {
             return false;
