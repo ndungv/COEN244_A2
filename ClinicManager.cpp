@@ -75,8 +75,6 @@ void ClinicManager::insert_patient() {
     }
 }
 
-
-
 void ClinicManager::print_all_patients() {
     for (int i = 0; i < num_patients; i++) {
         cout<< "---------Patient "<<i+1<<"----------"<<endl;
@@ -84,3 +82,91 @@ void ClinicManager::print_all_patients() {
         cout <<"-------------------------"<<endl;
     }
 }
+//Patient Insertion
+bool ClinicManager::insertPatient(Patient* patient) {
+    if (patientCount >= 1000) return false;
+ 
+    for (int i = 0; i < patientCount; i++) {
+        if (patients[i]->getName() == patient->getName() && patients[i]->getDateOfBirth() == patient->getDateOfBirth()) {
+            return false;
+        }
+    }
+    
+    patients[patientCount++] = patient;
+    return true;
+}
+
+//Doctor Insertion
+bool ClinicManager::insertDoctor(Doctor* doctor) {
+    if (doctorCount >= 10) return false;
+        for (int i = 0; i < doctorCount; i++) {
+        if (doctors[i]->getName() == doctor->getName()) {
+            return false;
+        }
+    }
+    doctors[doctorCount++] = doctor;
+    return true;
+}
+//Process appointment 
+AppointmentTime ClinicManager::processAppointment(const AppointmentRequest& request) {
+    Doctor* doctor = findDoctor(request.getDoctorName());
+    Patient* patient = findPatient(request.getPatientName());
+    
+    if (!doctor || !patient) {
+        return AppointmentTime(); 
+    }
+    // Find available time
+    for (int hour = 9; hour <= 17; hour++) {
+        if (hour == 12 || hour == 13) {
+            continue; 
+        }
+        for (int minute = 0; minute < 60; minute += 30) {
+            if (doctor->isTimeSlotAvailable(request.getDay(), hour, minute)) {
+                AppointmentTime apt(request.getDay(), hour, minute);          
+//refresh patient                
+                patient->setDoctorName(doctor->getName());
+                patient->setAppointmentTime(apt);
+                
+//refresh doctor                
+                doctor->bookAppointment(patient, request.getDay(), hour, minute);              
+                return apt;
+            }
+        }
+    }
+//Full    
+    return AppointmentTime(); 
+}
+//Appointment cancellation
+bool ClinicManager::cancelAppointment(const string& doctorName, const string& patientName, const AppointmentTime& time) {
+    Doctor* doctor = findDoctor(doctorName);
+    Patient* patient = findPatient(patientName);
+    
+    if (!doctor || !patient) {
+        return false;
+    }
+    // Remove the reservation from doctor 
+    if (!doctor->cancelAppointment(time.getDay(), time.getHour(), time.getMinute())) {
+        return false;
+    }
+    patient->setDoctorName("");
+    patient->setAppointmentTime(AppointmentTime());
+    return true;
+}
+//Print doctor patient
+void ClinicManager::printDoctorPatients(const std::string& doctorName) const {
+    bool found = false;
+    
+    for (int i = 0; i < patientCount; i++) {
+        if (patients[i]->getDoctorName() == doctorName) {
+            cout << "Patient: " << patients[i]->getName() << ", Insurance: " << patients[i]->getMedicalInsuranceNumber() << endl;
+            found = true;
+        }
+    }
+    
+    if (!found) {
+        cout << "No patients found for Dr. " << doctorName << endl;
+    }
+}
+
+
+
