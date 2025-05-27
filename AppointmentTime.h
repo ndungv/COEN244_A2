@@ -1,8 +1,4 @@
-/**
- * AppointmentTime.h
- * Represents appointment time information
- * Stores and manages the day and time of appointments
- */
+
 
 #ifndef APPOINTMENTTIME_H
 #define APPOINTMENTTIME_H

@@ -1,8 +1,4 @@
-/**
- * Date.cpp
- * Implementation of the Date class
- * Handles date validation and storage
- */
+
 
 #include <iostream>
 #include "Date.h"
@@ -10,7 +6,6 @@ using namespace std;
 
 /**
  * Default constructor
- * Initializes date to January 1, 2000
  */
 Date::Date() {
     day = 1;
@@ -20,9 +15,6 @@ Date::Date() {
 
 /**
  * Full constructor with validation
- * @param d Day of the month (1-31)
- * @param m Month (1-12)
- * @param y Year
  */
 Date::Date(int d, int m, int y) {
     // Validate input

@@ -1,6 +1,5 @@
 /**
  * Main driver file for the Clinic Management System
- * Handles the menu system and user interaction
  */
 
 #include <iostream>
@@ -26,58 +25,10 @@ int main() {
     return 0;
 }
 
-/**
- * Test function to demonstrate system functionality
- * Creates sample doctors and patients, books and cancels appointments
- */
-void test_clinic_functionality() {
-    // 1. Create and insert doctors
-    cout << "\nTesting Doctor Creation and Insertion:" << endl;
-    Doctor* doc1 = new Doctor("Dr. Smith");
-    Doctor* doc2 = new Doctor("Dr. Johnson");
-    
-    if(clinic_manager.insert_doctor(doc1)) {
-        cout << "Added " << doc1->get_name() << endl;
-    }
-    if(clinic_manager.insert_doctor(doc2)) {
-        cout << "Added " << doc2->get_name() << endl;
-    }
 
-    // 2. Create and insert a test patient
-    cout << "\nTesting Patient Creation and Insertion:" << endl;
-    cout << "Please enter the following test data exactly:" << endl;
-    cout << "Patient Name: John Doe" << endl;
-    cout << "Date of Birth: 1 1 1990" << endl;
-    cout << "Insurance: INS123" << endl;
-    cout << "Doctor Name: Smith" << endl;
-    cout << "Appointment: Monday 14 30" << endl;
-    clinic_manager.insert_patient();
-
-    // 3. Create and process appointment requests
-    cout << "\nTesting Appointment Processing:" << endl;
-    AppointmentRequest req1("John Doe", "Dr. Smith", "Monday");
-    AppointmentTime apt1 = clinic_manager.process_appointment(req1);
-    
-    if(apt1.getHour() != 0) {
-        cout << "Appointment scheduled for " << apt1.getDay() 
-             << " at " << apt1.getHour() << ":" 
-             << (apt1.getMinute() < 10 ? "0" : "") << apt1.getMinute() << endl;
-    }
-
-    // 4. Print doctor's patients
-    cout << "\nTesting Patient List for Doctor:" << endl;
-    clinic_manager.print_doctor_patients("Dr. Smith");
-
-    // 5. Test appointment cancellation
-    cout << "\nTesting Appointment Cancellation:" << endl;
-    if(clinic_manager.cancel_appointment("Dr. Smith", "John Doe", apt1)) {
-        cout << "Appointment cancelled successfully" << endl;
-    }
-}
 
 /**
- * Main menu implementation
- * Provides access to patient, doctor, and appointment management
+ * Main menu
  */
 void main_menu() {
     int option;
@@ -119,8 +70,7 @@ void main_menu() {
 }
 
 /**
- * Patient menu implementation
- * Handles patient registration and listing
+ * Patient menu
  */
 void patient_menu() {
     int option;
@@ -156,8 +106,7 @@ void patient_menu() {
 }
 
 /**
- * Doctor menu implementation
- * Handles doctor registration, listing, and patient viewing
+ * Doctor menu
  */
 void doctor_menu() {
     int option;
@@ -201,8 +150,7 @@ void doctor_menu() {
 }
 
 /**
- * Appointment menu implementation
- * Handles appointment booking and cancellation
+ * Appointment menu
  */
 void appointment_menu() {
     int option;

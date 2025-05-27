@@ -1,8 +1,3 @@
-/**
- * Doctor.h
- * Represents a doctor in the clinic system
- * Manages doctor's schedule and appointments
- */
 
 #ifndef DOCTOR_H
 #define DOCTOR_H
@@ -18,8 +13,6 @@ class Patient;
 
 /**
  * Doctor class
- * Handles individual doctor's information and appointment schedule
- * Maintains a 2D array of appointments (12 time slots × 5 weekdays)
  */
 class Doctor {
 public:

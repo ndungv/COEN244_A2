@@ -1,8 +1,4 @@
-/**
- * ClinicManager.h
- * Main class for managing the clinic's operations
- * Handles patients, doctors, and appointments
- */
+
 
 #ifndef CLINICMANAGER_H
 #define CLINICMANAGER_H
@@ -20,8 +16,6 @@ class Doctor;
 
 /**
  * ClinicManager class
- * Central management system for the clinic
- * Manages patient records, doctor schedules, and appointment bookings
  */
 class ClinicManager {
 public:

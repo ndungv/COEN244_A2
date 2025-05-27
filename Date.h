@@ -1,8 +1,3 @@
-/**
- * Date.h
- * Represents a calendar date
- * Handles date validation and storage
- */
 
 #ifndef DATE_H
 #define DATE_H
@@ -10,11 +5,7 @@
 #include <array>
 using namespace std;
 
-/**
- * Date class
- * Manages date information with validation
- * Supports dates from 1900 onwards
- */
+
 class Date {
 public:
     // Constructors and Destructor

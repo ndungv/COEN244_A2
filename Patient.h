@@ -1,8 +1,4 @@
-/**
- * Patient.h
- * Represents a patient in the clinic system
- * Manages patient information and appointments
- */
+
 
 #ifndef PATIENT_H
 #define PATIENT_H
@@ -13,8 +9,6 @@ using namespace std;
 
 /**
  * Patient class
- * Stores and manages individual patient information
- * Includes personal details, insurance, and appointment data
  */
 class Patient {
 public:

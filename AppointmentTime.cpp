@@ -1,8 +1,4 @@
-/**
- * AppointmentTime.cpp
- * Implementation of the AppointmentTime class
- * Handles time-related functionality for appointments
- */
+
 
 #include <iostream>
 #include "AppointmentTime.h"
@@ -19,7 +15,7 @@ AppointmentTime::AppointmentTime(){
 
 /**
  * Default constructor
- * Initializes an empty appointment time
+
  */
 AppointmentTime::AppointmentTime() {
     day = "";
@@ -29,9 +25,6 @@ AppointmentTime::AppointmentTime() {
 
 /**
  * Full constructor
- * @param d Day of the week (Monday-Friday)
- * @param h Hour in 24-hour format
- * @param m Minute (typically 0 or 30)
  */
 AppointmentTime::AppointmentTime(string d, int h, int m) {
     day = d;
@@ -41,7 +34,6 @@ AppointmentTime::AppointmentTime(string d, int h, int m) {
 
 /**
  * Destructor
- * No dynamic memory to clean up
  */
 AppointmentTime::~AppointmentTime() {
 }

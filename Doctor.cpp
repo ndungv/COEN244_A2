@@ -1,8 +1,4 @@
-/**
- * Doctor.cpp
- * Implementation of the Doctor class
- * Handles doctor's schedule and appointment management
- */
+
 
 #include <iostream>
 #include "Doctor.h"
@@ -12,7 +8,6 @@ using namespace std;
 
 /**
  * Default constructor
- * Initializes a doctor with empty name and all appointment slots set to nullptr
  */
 Doctor::Doctor() {
     doctor_name = "";
@@ -26,7 +21,6 @@ Doctor::Doctor() {
 
 /**
  * Destructor
- * Properly cleans up all dynamically allocated Patient objects in appointments
  */
 Doctor::~Doctor() {
     // Delete all dynamically allocated Patient objects
@@ -43,7 +37,6 @@ Doctor::~Doctor() {
 
 /**
  * Constructor with name parameter
- * @param d_name The doctor's name
  */
 Doctor::Doctor(string d_name) {
     doctor_name = d_name;
@@ -57,8 +50,6 @@ Doctor::Doctor(string d_name) {
 
 /**
  * Copy constructor
- * Performs deep copy of all appointments
- * @param another_doctor The doctor object to copy from
  */
 Doctor::Doctor(const Doctor &another_doctor) {
     doctor_name = another_doctor.doctor_name;
@@ -88,10 +79,6 @@ Doctor::Doctor(const Doctor &another_doctor) {
 
 /**
  * Books an appointment for a patient
- * @param patient Pointer to the patient to book
- * @param day_index Day of the week (0-4 for Monday-Friday)
- * @param time_index Time slot index (0-11 for available slots)
- * @return bool Success status of booking
  */
 bool Doctor::book_appointment(Patient* patient, int day_index, int time_index) {
     // Validate indices
@@ -111,8 +98,6 @@ bool Doctor::book_appointment(Patient* patient, int day_index, int time_index) {
 
 /**
  * Cancels an appointment
- * @param day_index Day of the week (0-4 for Monday-Friday)
- * @param time_index Time slot index (0-11 for available slots)
  */
 void Doctor::cancel_appointment(int day_index, int time_index) {
     if (day_index >= 0 && day_index < 5 && time_index >= 0 && time_index < 12) {
@@ -129,7 +114,6 @@ void Doctor::cancel_appointment(int day_index, int time_index) {
 
 /**
  * Displays the doctor's weekly schedule
- * Shows all appointments and available time slots
  */
 void Doctor::doctor_schedule() const {
     const string days[5] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
@@ -168,7 +152,6 @@ void Doctor::doctor_schedule() const {
 
 /**
  * Gets the doctor's name
- * @return string The doctor's name
  */
 string Doctor::get_name() const {
     return doctor_name;

@@ -1,8 +1,4 @@
-/**
- * Patient.cpp
- * Implementation of the Patient class
- * Manages patient information and their appointments
- */
+
 
 #include <iostream>
 #include "Patient.h"
@@ -10,7 +6,7 @@ using namespace std;
 
 /**
  * Default constructor
- * Initializes a patient with empty information
+
  */
 Patient::Patient() {
     patient_name = "";
@@ -20,11 +16,6 @@ Patient::Patient() {
 
 /**
  * Full constructor
- * @param p_name Patient's full name
- * @param dob Patient's date of birth
- * @param insurance Insurance information
- * @param d_name Assigned doctor's name
- * @param ap_patient Appointment time
  */
 Patient::Patient(string p_name, const Date& dob, string insurance, string d_name, const AppointmentTime& ap_patient) :
     patient_name(p_name),
@@ -73,8 +64,7 @@ void Patient::setAppointmentTime(const AppointmentTime& time) {
 }
 
 /**
- * Displays all patient information in a formatted way
- * Including personal details, insurance, and appointment information
+ * Displays all patient info
  */
 void Patient::print_patient_info() {
     cout << "Patient Name: " << patient_name << endl;
