@@ -80,11 +80,9 @@ void doctor_menu() {
     switch (option) {
         case 1:
             // clinic_manager.insert_doctor();
-        patient_menu();
         break;
         case 2:
             // clinic_manager.print_all_doctors();
-        patient_menu();
         break;
         case 0:
             main_menu();
