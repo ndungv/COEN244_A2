@@ -23,16 +23,16 @@ public:
     // void insert_doctor();
 
     void print_all_patients();
-//Patient Insertion 
-    bool insertPatient(Patient* patient);
+
+    
 //Doctor Insertion
     bool insertDoctor(Doctor* doctor);  
 //Appointment Processing    
     AppointmentTime processAppointment(const AppointmentRequest& request); 
 //Appointment Cancellation
-    bool cancelAppointment(const std::string& doctorName, const std::string& patientName, const AppointmentTime& time); 
+    bool cancelAppointment(const string& doctorName, const string& patientName, const AppointmentTime& time); 
 //Print Doctor Patients  
-    void printDoctorPatients(const std::string& doctorName) const;
+    void printDoctorPatients(const string& doctorName) const;
 private:
     //An array of pointers to the Patient objects of size 1000.
     Patient* patient;
@@ -45,23 +45,8 @@ private:
 
     int total_patients_week; 
     
-    Patient* findPatient(const std::string& name) const {
-        for (int i = 0; i < patientCount; i++) {
-            if (patients[i]->getName() == name) {
-                return patients[i];
-            }
-        }
-        return nullptr;
-    }
-    
-    Doctor* findDoctor(const std::string& name) const {
-        for (int i = 0; i < doctorCount; i++) {
-            if (doctors[i]->getName() == name) {
-                return doctors[i];
-            }
-        }
-        return nullptr;
-    }
+    Patient* findPatient(const string& name) const;     
+    Doctor* findDoctor(const std::string& name) const; 
 
 };
 
