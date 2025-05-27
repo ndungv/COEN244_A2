@@ -149,25 +149,45 @@ bool ClinicManager::cancelAppointment(const string& doctorName, const string& pa
     if (!doctor->cancelAppointment(time.getDay(), time.getHour(), time.getMinute())) {
         return false;
     }
+
+    
     patient->setDoctorName("");
     patient->setAppointmentTime(AppointmentTime());
     return true;
 }
 //Print doctor patient
-void ClinicManager::printDoctorPatients(const std::string& doctorName) const {
+void ClinicManager::printDoctorPatients(const string& doctorName) const {
     bool found = false;
     
     for (int i = 0; i < patientCount; i++) {
-        if (patients[i]->getDoctorName() == doctorName) {
-            cout << "Patient: " << patients[i]->getName() << ", Insurance: " << patients[i]->getMedicalInsuranceNumber() << endl;
+        if (patients[i]->getPatientDoctorName() == doctorName) {
+            cout << "Patient: " << patients[i]->getPatientName() << ", Insurance: " << patients[i]->getPatientInsurance() << endl;
             found = true;
         }
     }
-    
     if (!found) {
-        cout << "No patients found for Dr. " << doctorName << endl;
+        cout << "Dr. " << doctorName << " not found "endl;
     }
 }
+
+Patient* ClinicManager::findPatient(const string& name) const {
+    for (int i = 0; i < patientCount; i++) {
+        if (patients[i]->getPatientName() == name) {
+            return patients[i];
+        }
+    }
+    return nullptr;
+}
+
+Doctor* ClinicManager::findDoctor(const string& name) const {
+    for (int i = 0; i < doctorCount; i++) {
+        if (doctors[i]->get_name() == name) {
+            return doctors[i];
+        }
+    }
+    return nullptr;
+}
+
 
 
 
