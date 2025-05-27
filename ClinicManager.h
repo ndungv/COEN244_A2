@@ -43,7 +43,7 @@ private:
     int num_doctors;
     const int max_doctors = 10;
 
-    int total_patients_week; // total patients per week
+    int total_patients_week; 
     
     Patient* findPatient(const std::string& name) const {
         for (int i = 0; i < patientCount; i++) {
