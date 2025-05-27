@@ -1,20 +1,17 @@
-/**
- * ClinicManager.cpp
- * Implementation of the ClinicManager class
- */
 
 #include <iostream>
-#include <limits>
+
 #include "ClinicManager.h"
 #include "Doctor.h"
 #include "Patient.h"
 using namespace std;
 
-/**
- * Constructor: Initializes the clinic management system
- * Creates dynamic arrays for patients and doctors
- */
+
+// Constructor
+
+
 ClinicManager::ClinicManager() {
+    // Creates dynamic arrays for patients and doctors
     patients = new Patient*[max_patients];
     doctors = new Doctor*[max_doctors];
     patient_count = 0;
@@ -22,10 +19,8 @@ ClinicManager::ClinicManager() {
     total_patients_week = 0;
 }
 
-/**
- * Destructor: Cleans up all dynamically allocated memory
- * Deletes all patient and doctor objects and their arrays
- */
+
+// Destructor
 ClinicManager::~ClinicManager() {
     for(int i = 0; i < patient_count; i++) {
         delete patients[i];
@@ -37,11 +32,7 @@ ClinicManager::~ClinicManager() {
     delete[] doctors;
 }
 
-/**
- * Registers a new patient in the system
- * Collects patient information through user input and validates data
- * Checks for duplicate patients before registration
- */
+ // Register new patient
 void ClinicManager::insert_patient() {
     if (patient_count >= max_patients) {
         cout << "Maximum number of patients reached!" << endl;
@@ -72,10 +63,10 @@ void ClinicManager::insert_patient() {
         getline(cin, temp);
         cout << "Enter as: DD MM YYYY (Example: 7 3 2005): ";
     }
-    getline(cin, temp); // Clear buffer
+    getline(cin, temp);
     Date patient_birth(dob_date, dob_month, dob_year);
 
-    // Check for duplicate patients
+    // Check for duplicate
     for (int i = 0; i < patient_count; i++) {
         if (patients[i]->getPatientName() == patient_name &&
             patients[i]->get_patient_birth().getDay() == dob_date &&
@@ -101,14 +92,14 @@ void ClinicManager::insert_patient() {
     cout << "Enter as: Day Hour Minute" << endl;
     cout << "Example: Monday 14 30 (for Monday at 2:30 PM): ";
     cin >> ap_date >> ap_hour >> ap_minute;
-    getline(cin, temp); // Clear buffer
+    getline(cin, temp);
     AppointmentTime ap_patient(ap_date, ap_hour, ap_minute);
 
     // Create and store new patient
     patients[patient_count] = new Patient(patient_name, patient_birth, insurance, doctor_name, ap_patient);
     patient_count++;
     
-    // Print confirmation
+    // Print info
     cout << "\n=== Registration Successful ===" << endl;
     cout << "--------------------------------" << endl;
     cout << "Name        : " << patient_name << endl;
@@ -122,9 +113,9 @@ void ClinicManager::insert_patient() {
     cout << "--------------------------------\n" << endl;
 }
 
-/**
- * Displays information for all registered patients
- */
+
+ //Displays information for all registered patients
+
 void ClinicManager::print_all_patients() {
     if (patient_count == 0) {
         cout << "No patients registered." << endl;
@@ -138,10 +129,9 @@ void ClinicManager::print_all_patients() {
     }
 }
 
-/**
- * Registers a new doctor in the system
- * Validates input and checks for duplicates
- */
+
+ //Registers a new doctor in the system
+
 void ClinicManager::insert_doctor() {
     if (doctor_count >= max_doctors) {
         cout << "Maximum number of doctors reached!" << endl;
@@ -168,9 +158,9 @@ void ClinicManager::insert_doctor() {
     cout << "Current number of doctors: " << doctor_count << endl;
 }
 
-/**
- * Displays schedules for all registered doctors
- */
+
+// Displays schedules for all registered doctors
+
 void ClinicManager::print_all_doctors() {
     if (doctor_count == 0) {
         cout << "No doctors registered." << endl;
@@ -184,31 +174,22 @@ void ClinicManager::print_all_doctors() {
     }
 }
 
-/**
- * Inserts a pre-created doctor object into the system
- * Used primarily for testing and bulk imports
- * @param doctor Pointer to the doctor object to insert
- * @return bool Success status of the insertion
- */
-bool ClinicManager::insert_doctor(Doctor* doctor) {
-    if (doctor_count >= max_doctors) return false;
-    
-    for (int i = 0; i < doctor_count; i++) {
-        if (doctors[i]->get_name() == doctor->get_name()) {
-            return false;
-        }
-    }
-    
-    doctors[doctor_count++] = doctor;
-    return true;
-}
+// bool ClinicManager::insert_doctor(Doctor* doctor) {
+//     if (doctor_count >= max_doctors) return false;
+//
+//     for (int i = 0; i < doctor_count; i++) {
+//         if (doctors[i]->get_name() == doctor->get_name()) {
+//             return false;
+//         }
+//     }
+//
+//     doctors[doctor_count++] = doctor;
+//     return true;
+// }
 
-/**
- * Processes a new appointment request
- * Validates the request and attempts to schedule the appointment
- * @param request The appointment request to process
- * @return AppointmentTime The scheduled time or empty if failed
- */
+
+//Appointment request
+
 AppointmentTime ClinicManager::process_appointment(const AppointmentRequest& request) {
     string doctor_name = request.getDoctorName();
     Doctor* doctor = find_doctor(doctor_name);
@@ -221,11 +202,10 @@ AppointmentTime ClinicManager::process_appointment(const AppointmentRequest& req
         return AppointmentTime(); 
     }
 
-    // Convert appointment date to day index
+    // Convert appointment date string to day num
     string appointment_date = request.getAppointmentDate();
     int day_index = -1;
-    
-    // Map day names to indices
+
     if (appointment_date == "Monday") day_index = 0;
     else if (appointment_date == "Tuesday") day_index = 1;
     else if (appointment_date == "Wednesday") day_index = 2;
@@ -237,8 +217,8 @@ AppointmentTime ClinicManager::process_appointment(const AppointmentRequest& req
         return AppointmentTime();
     }
     
-    // Calculate time slot index
-    int hour = 14;  // Default to 2 PM
+    // Calculate time slot
+    int hour = 14;  // Default
     int minute = 30;
     
     int time_index;
@@ -262,13 +242,9 @@ AppointmentTime ClinicManager::process_appointment(const AppointmentRequest& req
     }
 }
 
-/**
- * Cancels an existing appointment
- * @param doctor_name The doctor's name
- * @param patient_name The patient's name
- * @param time The appointment time to cancel
- * @return bool Success status of the cancellation
- */
+
+// Cancels an existing appointment
+
 bool ClinicManager::cancel_appointment(const string& doctor_name, const string& patient_name, const AppointmentTime& time) {
     Doctor* doctor = find_doctor(doctor_name);
     Patient* patient = find_patient(patient_name);
@@ -312,10 +288,9 @@ bool ClinicManager::cancel_appointment(const string& doctor_name, const string& 
     return true;
 }
 
-/**
- * Displays all patients assigned to a specific doctor
- * @param doctor_name The name of the doctor
- */
+
+ // * Displays all patients assigned to a specific doctor
+
 void ClinicManager::print_doctor_patients(const string& doctor_name) const {
     bool found = false;
     
@@ -332,11 +307,9 @@ void ClinicManager::print_doctor_patients(const string& doctor_name) const {
     }
 }
 
-/**
- * Helper function to find a patient by name
- * @param name The patient's name to search for
- * @return Patient* Pointer to the found patient or nullptr
- */
+
+ // function to find a patient by name
+
 Patient* ClinicManager::find_patient(const string& name) const {
     for (int i = 0; i < patient_count; i++) {
         if (patients[i]->getPatientName() == name) {
@@ -346,11 +319,9 @@ Patient* ClinicManager::find_patient(const string& name) const {
     return nullptr;
 }
 
-/**
- * Helper function to find a doctor by name
- * @param name The doctor's name to search for
- * @return Doctor* Pointer to the found doctor or nullptr
- */
+
+ //function to find a doctor by name
+
 Doctor* ClinicManager::find_doctor(const string& name) const {
     for (int i = 0; i < doctor_count; i++) {
         if (doctors[i]->get_name() == name) {
